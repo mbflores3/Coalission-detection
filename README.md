@@ -1,4 +1,4 @@
-# test_tecnico
+# Test_Tecnico
 La simulación se corre desde el directorio del workspace ejecutando el comando:
 
 - cd ros2_ws
