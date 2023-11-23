@@ -13,7 +13,7 @@ class Subscriber(Node):
 
     def __init__(self):
         super().__init__('subscriber')
-        self.modelo = load('src/desafio_tecnico/desafio_tecnico/modeloCaracteristicas.pkl')
+        self.modelo = load('pesosGradientBoost.pkl')
         self.corriente = []  #Lista que tendrá ventanas de corriente
         self.wind = 10  #Largo de la ventana
         self.amp=15
@@ -50,7 +50,7 @@ class Subscriber(Node):
                 msg.data = True
                 self.alarm_to_publisher.publish(msg)
 
-            self.corriente = []
+            self.corriente.pop(0)
 
     def call_trigger_service(self, message):
         client_ = self.create_client(Trigger, 'abort_cycle')
@@ -59,24 +59,6 @@ class Subscriber(Node):
         request_message = Trigger.Request()
         future = client_.call_async(request_message)
         future.add_done_callback(partial(self.callback_trigger))
-                #msg = Trigger()
-                #msg = '¡llamando al servicio abort_cycle!'
-                #self.abo.publish()
-            
-        #wind = self.ventana
-        #sigma = 1.9
-        #if i > wind:
-        #    currentData = pd.DataFrame(self.current, columns=['current'])
-        #    currentData["bottom"] = currentData['current'].rolling(window=wind).mean() - (1.7 * sigma * currentData['current'].rolling(window=wind).std())
-        #    currentData["top"] = currentData['current'].rolling(window=wind).mean() + (1.7 * sigma * currentData['current'].rolling(window=wind).std())
-        #    rpmData = pd.DataFrame(self.rpm, columns=['rpm'])
-        #    rpmData["bottom"] = rpmData['rpm'].rolling(window=wind).mean() - (1.7 * sigma * rpmData['rpm'].rolling(window=wind).std())
-        #    rpmData["top"] = rpmData['rpm'].rolling(window=wind).mean() + (1.7* sigma * rpmData['rpm'].rolling(window=wind).std())
-        #
-        #    if (rpmData["bottom"][i] > self.rpm[i] or rpmData["top"][i] < self.rpm[i]) and (currentData["bottom"][i] > self.current[i] or currentData["top"][i] < self.current[i]):
-        #        self.get_logger().info('Anomaly found in second: "%d"' % i)
-        #
-        #self.get_logger().info('Current value: "%f"' % msg.data[0])
     
     def callback_trigger(self, future):
         try:
