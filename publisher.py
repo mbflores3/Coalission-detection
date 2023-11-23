@@ -16,12 +16,12 @@ class Publisher(Node):
 
         #### Ejemplo archivo choque ####
 
-        file_path = 'src/desafio_tecnico/desafio_tecnico/Extractions/1697550288946191648.json'
+        file_path = 'Extractions/1695718216618806613.json'
         self.reading(file_path)
         self.alarma = False
         self.publisher_ = self.create_publisher(Float32MultiArray, 'topic', 10)
         self.subscription_alarm = self.create_subscription(Bool,'alarma',self.cambio_estado,10)
-        timer_period = 0.5  # seconds
+        timer_period = 1.0  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
 
