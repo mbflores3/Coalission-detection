@@ -9,7 +9,7 @@ class Abort_cycle(Node):
         self.server = self.create_service(Trigger, 'abort_cycle', self.callback)
 
     def callback(self, request, response):
-        self.get_logger().info("El servicio abort_cycle ha sido activado.")
+        self.get_logger().info("El servicio abort_cycle fue activado.")
         response.success = True
         response.message = "El servicio abort_cycle ha fracasado"
         return response
